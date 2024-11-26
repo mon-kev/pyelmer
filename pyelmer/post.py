@@ -1,9 +1,9 @@
 import os
 import re
-import numpy as np
+from dataclasses import dataclass, field
+
 import matplotlib.pyplot as plt
 import pandas as pd
-from dataclasses import dataclass, field
 
 
 @dataclass
@@ -250,11 +250,11 @@ def dat_to_dataframe(dat_file):
     names = []
     names_start = False
     for line in lines:
-        if names_start == True:
+        if names_start:
             names.append(":".join(line.split(":")[1:]).strip())
         if (
             "Data on different columns" in line
             or "Variables in columns of matrix" in line
         ):
             names_start = True
-    return pd.read_table(dat_file, names=names, sep='\s+')
+    return pd.read_table(dat_file, names=names, sep=r"\s+")
